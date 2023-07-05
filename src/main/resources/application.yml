@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: ENC(T981x3BsCyC18hFT7fOZyw==)
+    password: ENC(Sd017EMz0dukkwHB6jf9hao+Za0O/Hkx)
+    url: ENC(0lXCMUcV9K/zhV/iN6MyscjKTXsHhIQcITXgNCqkK6DeGORQkAiyi62Y+l9JNTa+cHjmtzcLazXyWzLEc/9iQkM+DkMrUjrtqGL0xX+nm5a4LDfy0w4YsI6CtkXUdWUWw6gC+5ZRJQms8/JE0WTLQdQO4ktbXc+h89JHUp6BApairo0t0QAK1Q==)
+  thymeleaf:
+    cache: false
+    prefix: file:src/main/resources/templates/
+    devtools:
+      livereload:
+        enabled: true
+      restart:
+        enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+logging.level:
+  org.hibernate:
+    SQL: debug
+    orm.jdbc.bind: trace
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
