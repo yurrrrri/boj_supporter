@@ -1,24 +1,17 @@
 package com.huh.BaekJoonSupporter.solvedApi;
 
-import com.huh.BaekJoonSupporter.member.MemberRepository;
-import lombok.Builder;
+import com.huh.BaekJoonSupporter.solvedApi.dto.ProblemDto;
+import com.huh.BaekJoonSupporter.solvedApi.dto.UserDto;
+import com.huh.BaekJoonSupporter.solvedApi.entity.User;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
-import java.util.Map;
 
 @Component
 public class SolvedApiManager {
@@ -36,7 +29,7 @@ public class SolvedApiManager {
                 api_handle + "wy9295";
     }
 
-    private String getProblemStats() throws UnsupportedEncodingException{
+    private String getProblemStats() throws UnsupportedEncodingException {
         RestTemplate restTemplate = new RestTemplate();
         return BASE_URL +
                 api_problem +
@@ -45,7 +38,7 @@ public class SolvedApiManager {
 
 
     //==문제풀이 로직==//
-    public String  getSolvedCount() throws IOException, ParseException {
+    public String getSolvedCount() throws IOException, ParseException {
         RestTemplate restTemplate = new RestTemplate();
         String jsonString = restTemplate.getForObject(getUserInformation(), String.class);
 

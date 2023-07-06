@@ -37,20 +37,27 @@
     </script>
 
     <div class="max-w-md w-screen">
-        <form th:action method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onsubmit="LoginForm__submit(this); return false;">
+        <form th:action method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+              onsubmit="LoginForm__submit(this); return false;">
             <div class="mb-4">
-                <input name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="아이디">
+                <input name="name"
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                       type="text" placeholder="아이디">
             </div>
             <div class="mb-6">
-                <input name="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="password" placeholder="비밀번호">
+                <input name="password"
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                       type="password" placeholder="비밀번호">
             </div>
             <div class="flex justify-center mb-2">
-                <button class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                <button class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        type="submit">
                     로그인
                 </button>
             </div>
             <div class="flex justify-center">
-                <a href="/member/signup" class="text-center w-full bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                <a href="/member/signup"
+                   class="text-center w-full bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     회원가입
                 </a>
             </div>
