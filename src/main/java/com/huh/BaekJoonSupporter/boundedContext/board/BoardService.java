@@ -87,7 +87,7 @@ public class BoardService {
     @Transactional
     public void delete(Long boardId) {
         Board board = this.getBoard(boardId);
-        Member member = memberService.getMember(board.getMember().getName());
+        Member member = memberService.getMember(board.getMember().getUsername());
         member.getBoards().remove(board);
         boardRepository.delete(board);
 

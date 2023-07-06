@@ -24,8 +24,8 @@ public class MemberController {
 
     @PreAuthorize("isAnonymous()")
     @PostMapping("/signup")
-    public String signup(@Valid MemberCreateForm memberCreateForm) {
-        memberService.create(memberCreateForm.getName(), memberCreateForm.getPassword1(), memberCreateForm.getToken());
+    public String signup(@Valid MemberCreateForm form) {
+        memberService.create(form);
         return "redirect:/";
     }
 

@@ -67,7 +67,7 @@
             <!-- 글쓴이 -->
             <td class="px-6 py-4 whitespace-nowrap">
             <span th:if="${board.member != null}"
-                  th:text="${board.member.name}"
+                  th:text="${board.member.getUsername}"
                   class="text-sm text-gray-500"></span>
             </td>
 

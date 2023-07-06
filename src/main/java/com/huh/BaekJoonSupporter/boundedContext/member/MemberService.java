@@ -1,7 +1,9 @@
 package com.huh.BaekJoonSupporter.boundedContext.member;
 
+import com.huh.BaekJoonSupporter.boundedContext.member.form.MemberCreateForm;
 import com.huh.BaekJoonSupporter.customException.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,30 +16,31 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Member create(String name, String password, String token) {
+    public Member create(MemberCreateForm form) {
+        if (memberRepository.findByUsername(form.getUsername()).isPresent()) {
+            throw new DuplicateKeyException("Member already exists.");
+        }
+
         Member member = Member.builder()
-                .name(name)
-                .password(passwordEncoder.encode(password))
-                .token(token)
+                .username(form.getUsername())
+                .password(passwordEncoder.encode(form.getPassword1()))
+                .token(form.getToken())
                 .build();
         return memberRepository.save(member);
     }
 
-    public Member getMember(String name) {
-        Optional<Member> member = memberRepository.findByName(name);
-        if (member.isPresent()) {
-            return member.get();
-        } else {
-            throw new DataNotFoundException("member not found");
-        }
+    public Member getMember(String username) {
+        Optional<Member> member = memberRepository.findByUsername(username);
+
+        return member.orElseThrow(() -> new DataNotFoundException("Member not found."));
     }
 
-    public void modify(Member member, String password, String token) {
-        Member member1 = member.toBuilder()
+    public Member modify(Member member, String password, String token) {
+        Member modifiedMember = member.toBuilder()
                 .password(passwordEncoder.encode(password))
                 .token(token)
                 .build();
-        memberRepository.save(member1);
+        return memberRepository.save(modifiedMember);
     }
 
     public void delete(Member member) {

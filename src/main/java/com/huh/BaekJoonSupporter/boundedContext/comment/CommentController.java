@@ -53,7 +53,7 @@ public class CommentController {
     @GetMapping("/modify/{id}")
     public String modify(CommentForm commentForm, @PathVariable("id") Long id, Principal principal) {
         Comment comment = this.commentService.getComment(id);
-        if (!comment.getMember().getName().equals(principal.getName())) { // 댓글 작성한 회원정보와 일치 여부 확인
+        if (!comment.getMember().getUsername().equals(principal.getName())) { // 댓글 작성한 회원정보와 일치 여부 확인
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다");
         }
         commentForm.setComment(comment.getContent());
@@ -68,7 +68,7 @@ public class CommentController {
             return "수정"; // 댓글 폼 html 리턴
         }
         Comment comment = this.commentService.getComment(id);
-        if (!comment.getMember().getName().equals(principal.getName())) {// 댓글 작성한 회원정보와 일치 여부 확인
+        if (!comment.getMember().getUsername().equals(principal.getName())) {// 댓글 작성한 회원정보와 일치 여부 확인
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다");
         }
         this.commentService.modify(comment, commentForm.getComment());
@@ -81,7 +81,7 @@ public class CommentController {
     @GetMapping("/delete/{id}")
     public String delete(Principal principal, @PathVariable("id") Long id) {
         Comment comment = this.commentService.getComment(id);
-        if (!comment.getMember().getName().equals(principal.getName())) {// 댓글 작성한 회원정보와 일치 여부 확인
+        if (!comment.getMember().getUsername().equals(principal.getName())) {// 댓글 작성한 회원정보와 일치 여부 확인
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다");
         }
         this.commentService.delete(comment);

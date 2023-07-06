@@ -12,18 +12,21 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-@Builder(toBuilder = true)
-@Getter
+import static jakarta.persistence.GenerationType.IDENTITY;
+
 @Entity
+@Getter
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Member {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @Column(unique = true)
-    private String name;
+    private String username;
 
     private String password;
 
@@ -40,4 +43,5 @@ public class Member {
     @OneToMany(mappedBy = "member")
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
+
 }

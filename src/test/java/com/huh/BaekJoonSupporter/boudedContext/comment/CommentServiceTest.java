@@ -49,7 +49,7 @@ class CommentServiceTest {
         Board board = this.boardService.getBoard(boId);
 
         // 댓글 생성 //
-        Comment comment = this.commentService.create("테스트 댓글", boardService.getBoard(boId), memberService.getMember(member.getName()));
+        Comment comment = this.commentService.create("테스트 댓글", boardService.getBoard(boId), memberService.getMember(member.getUsername()));
         assertThat(comment.getContent()).isEqualTo("테스트 댓글");
 
         // 댓글 수정 //
