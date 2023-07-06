@@ -15,29 +15,26 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity
 public class SecurityConfig {
+
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests().requestMatchers(
+        http
+                .authorizeHttpRequests().requestMatchers(
                         new AntPathRequestMatcher("/**")).permitAll()
                 .and()
                 .csrf().ignoringRequestMatchers(
-                        new AntPathRequestMatcher("/")) // 우선 / 로설정해서 전부 들어갈 수 있게 설정
+                        new AntPathRequestMatcher("/"))
                 .and()
                 .headers()
                 .addHeaderWriter(new XFrameOptionsHeaderWriter(
                         XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
                 .and()
-                .formLogin()
-                .loginPage("/user/login")
-                .defaultSuccessUrl("/")
-                .and()
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
-                .logoutSuccessUrl("/")
-                .invalidateHttpSession(true)
-        ;
+                .formLogin(formLogin -> formLogin.loginPage("/user/login")
+                        .defaultSuccessUrl("/"))
+                .logout(logout -> logout.logoutUrl("/").invalidateHttpSession(true));
+
         return http.build();
     }
 
@@ -47,7 +44,10 @@ public class SecurityConfig {
     }
 
     @Bean
-    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    AuthenticationManager authenticationManager(
+            AuthenticationConfiguration authenticationConfiguration
+    ) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
 }
