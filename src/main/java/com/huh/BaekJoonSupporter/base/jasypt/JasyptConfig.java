@@ -1,4 +1,4 @@
-package com.huh.BaekJoonSupporter.jasypt;
+package com.huh.BaekJoonSupporter.base.jasypt;
 
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import org.jasypt.encryption.StringEncryptor;

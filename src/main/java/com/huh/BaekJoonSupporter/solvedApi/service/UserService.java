@@ -2,7 +2,7 @@ package com.huh.BaekJoonSupporter.solvedApi.service;
 
 import com.huh.BaekJoonSupporter.boundedContext.member.MemberRepository;
 import com.huh.BaekJoonSupporter.boundedContext.teamrule.TeamRuleRepository;
-import com.huh.BaekJoonSupporter.customException.DataNotFoundException;
+import com.huh.BaekJoonSupporter.base.customException.DataNotFoundException;
 import com.huh.BaekJoonSupporter.solvedApi.SolvedApiManager;
 import com.huh.BaekJoonSupporter.solvedApi.entity.User;
 import com.huh.BaekJoonSupporter.solvedApi.repository.UserRepository;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
 @Service

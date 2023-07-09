@@ -1,6 +1,6 @@
 package com.huh.BaekJoonSupporter.boundedContext.team;
 
-import com.huh.BaekJoonSupporter.boundedContext.base.BaseEntity;
+import com.huh.BaekJoonSupporter.base.entity.BaseEntity;
 import com.huh.BaekJoonSupporter.boundedContext.line.Line;
 import com.huh.BaekJoonSupporter.boundedContext.member.Member;
 import com.huh.BaekJoonSupporter.boundedContext.teamrule.TeamRule;

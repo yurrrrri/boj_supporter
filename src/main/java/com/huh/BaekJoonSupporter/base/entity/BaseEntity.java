@@ -1,4 +1,4 @@
-package com.huh.BaekJoonSupporter.boundedContext.base;
+package com.huh.BaekJoonSupporter.base.entity;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;

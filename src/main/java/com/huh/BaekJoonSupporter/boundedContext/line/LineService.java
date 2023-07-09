@@ -2,7 +2,7 @@ package com.huh.BaekJoonSupporter.boundedContext.line;
 
 
 import com.huh.BaekJoonSupporter.boundedContext.team.Team;
-import com.huh.BaekJoonSupporter.customException.DataNotFoundException;
+import com.huh.BaekJoonSupporter.base.customException.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

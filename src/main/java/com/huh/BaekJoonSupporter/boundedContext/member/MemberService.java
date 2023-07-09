@@ -1,7 +1,7 @@
 package com.huh.BaekJoonSupporter.boundedContext.member;
 
 import com.huh.BaekJoonSupporter.boundedContext.member.form.MemberCreateForm;
-import com.huh.BaekJoonSupporter.customException.DataNotFoundException;
+import com.huh.BaekJoonSupporter.base.customException.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;

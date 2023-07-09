@@ -1,6 +1,6 @@
 package com.huh.BaekJoonSupporter.boundedContext.line;
 
-import com.huh.BaekJoonSupporter.boundedContext.base.BaseEntity;
+import com.huh.BaekJoonSupporter.base.entity.BaseEntity;
 import com.huh.BaekJoonSupporter.boundedContext.team.Team;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

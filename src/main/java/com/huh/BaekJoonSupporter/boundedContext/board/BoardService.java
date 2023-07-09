@@ -3,7 +3,7 @@ package com.huh.BaekJoonSupporter.boundedContext.board;
 import com.huh.BaekJoonSupporter.boundedContext.category.Category;
 import com.huh.BaekJoonSupporter.boundedContext.member.Member;
 import com.huh.BaekJoonSupporter.boundedContext.member.MemberService;
-import com.huh.BaekJoonSupporter.customException.DataNotFoundException;
+import com.huh.BaekJoonSupporter.base.customException.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

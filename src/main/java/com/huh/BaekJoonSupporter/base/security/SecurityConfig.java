@@ -1,4 +1,4 @@
-package com.huh.BaekJoonSupporter.security;
+package com.huh.BaekJoonSupporter.base.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
