@@ -1,54 +1,44 @@
 package com.huh.BaekJoonSupporter.boundedContext.category;
 
+import com.huh.BaekJoonSupporter.boundedContext.base.BaseEntity;
 import com.huh.BaekJoonSupporter.boundedContext.board.Board;
-import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
+import static jakarta.persistence.CascadeType.ALL;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
-@Builder(toBuilder = true)
 @Getter
-@ToString
-@AllArgsConstructor
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor(access = PROTECTED)
-@EntityListeners(AuditingEntityListener.class)
-public class Category {
-
-    //-- field --//
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long id;
+@AllArgsConstructor
+public class Category extends BaseEntity {
 
     private String name;
 
     private String about;
 
-    @CreatedDate
-    private LocalDateTime createDate;
-    private LocalDateTime modifyDate;
-
     @Builder.Default
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = ALL)
     private List<Board> boards = new ArrayList<>();
 
-    //-- create method --//
-    protected static Category createCategory(String name, String about) {
+    protected static Category create(String name, String about) {
         return Category.builder()
                 .name(name)
                 .about(about)
                 .build();
     }
 
-    //-- modify Category --//
-    protected Category modifyCategory(String name, String about) {
+    protected Category modify(String name, String about) {
         return this.toBuilder()
                 .name(name)
                 .about(about)
