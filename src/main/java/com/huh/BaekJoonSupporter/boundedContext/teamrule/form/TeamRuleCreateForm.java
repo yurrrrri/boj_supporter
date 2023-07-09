@@ -11,10 +11,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TeamRuleCreateForm {
+
     @NotBlank(message = "목표 선택은 필수입니다.")
-    private String target;  // 목표 구분 라디오 박스 얻어올 값
+    private String target;
+
     @NotBlank(message = "난이도 선택은 필수입니다.")
-    private String difficulty;  // 목표 구분 라디오 박스 얻어올 값
+    private String difficulty;
+
     @NotBlank(message = "목표 수 설정은 필수입니다.")
-    private Long targetNumber;  // 목표 수
+    private Long targetNumber;
+
 }

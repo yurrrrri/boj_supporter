@@ -29,28 +29,23 @@ public class TeamRuleController {
     }
 
     @GetMapping("/create")
-    public String Create() {
+    public String create() {
         return "teamrule/create";
     }
 
     @PostMapping("/create")
     @ResponseBody
-    //테스트 못해봤슴다
-    public String Create(@Valid TeamRuleCreateForm createForm, Principal principal) {
+    public String create(@Valid TeamRuleCreateForm createForm, Principal principal) {
         Team team = memberService.getMember(principal.getName()).getTeam();
         TeamRule teamRule = null;
-        // 방식(난이도 무관/유관) 선택 전에 난이도 먼저 고른 상태에서, 무관을 할 경우 난이도 default로 변경
-        if (createForm.getTarget().equals("무관") && !createForm.getDifficulty().equals("default")) {
-            teamRule = teamRuleService.create(team, createForm.getTarget(), "default", createForm.getTargetNumber());
-        } else {
-            teamRule = teamRuleService.create(team, createForm.getTarget(), createForm.getDifficulty(), createForm.getTargetNumber());
-        }
-        // 실패시 메인
-        if (teamRule == null)
-            return "실패";
 
-        // 규칙 생성 시 목록으로
-        return "성공";
+        teamRule = (createForm.getTarget().equals("무관") && !createForm.getDifficulty().equals("default")) ?
+                teamRuleService.create(team, createForm.getTarget(), "default", createForm.getTargetNumber()) :
+                teamRuleService.create(team, createForm.getTarget(), createForm.getDifficulty(), createForm.getTargetNumber());
+
+        if (teamRule == null) return "redirect:/teamrule/list";
+
+        return "redirect:/teamrule/list";
 
     }
 

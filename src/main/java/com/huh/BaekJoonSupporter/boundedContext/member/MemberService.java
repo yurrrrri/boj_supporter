@@ -31,16 +31,15 @@ public class MemberService {
 
     public Member getMember(String username) {
         Optional<Member> member = memberRepository.findByUsername(username);
-
         return member.orElseThrow(() -> new DataNotFoundException("Member not found."));
     }
 
     public Member modify(Member member, String password, String token) {
-        Member modifiedMember = member.toBuilder()
+        Member modifyMember = member.toBuilder()
                 .password(passwordEncoder.encode(password))
                 .token(token)
                 .build();
-        return memberRepository.save(modifiedMember);
+        return memberRepository.save(modifyMember);
     }
 
     public void delete(Member member) {
