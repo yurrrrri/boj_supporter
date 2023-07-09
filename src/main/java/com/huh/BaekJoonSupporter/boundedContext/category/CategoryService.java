@@ -31,15 +31,13 @@ public class CategoryService {
     @Transactional
     public Category create(String name, String about) {
         Category category = Category.create(name, about);
-        categoryRepository.save(category);
-        return category;
+        return categoryRepository.save(category);
     }
 
     @Transactional
     public Category modify(Category category, String name, String about) {
         Category modifyCategory = category.modify(name, about);
-        categoryRepository.save(modifyCategory);
-        return modifyCategory;
+        return categoryRepository.save(modifyCategory);
     }
 
     @Transactional

@@ -23,6 +23,11 @@ logging.level:
   org.hibernate:
     SQL: debug
     orm.jdbc.bind: trace
+
+custom:
+  line:
+    token: ENC(CCcGxbWZjupeJyVCNW0NQ9zxknQh3rns51LWDye8qHU2VBP9OCvjQk9VinCLgOgiX+raYrmHKvBPGPejR+HtZA==)
+
 jasypt:
   encryptor:
     bean: jasyptStringEncryptor

@@ -1,13 +1,15 @@
 package com.huh.BaekJoonSupporter.boundedContext.line;
 
+import com.huh.BaekJoonSupporter.boundedContext.base.BaseEntity;
 import com.huh.BaekJoonSupporter.boundedContext.team.Team;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 import static lombok.AccessLevel.PROTECTED;
 
@@ -16,11 +18,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Builder(toBuilder = true)
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
-public class Line {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Line extends BaseEntity {
 
     @Column(unique = true)
     private String token;
@@ -28,6 +26,4 @@ public class Line {
     @OneToOne(fetch = FetchType.LAZY)
     private Team team;
 
-    private LocalDateTime createDate;
-    private LocalDateTime modifyDate;
 }

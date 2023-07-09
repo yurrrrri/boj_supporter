@@ -6,11 +6,8 @@ import com.huh.BaekJoonSupporter.customException.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
-
-@Service
 @RequiredArgsConstructor
+@Service
 public class LineService {
 
     private final LineRepository lineRepository;
@@ -19,41 +16,29 @@ public class LineService {
         Line line = Line.builder()
                 .token(token)
                 .team(team)
-                .createDate(LocalDateTime.now())
                 .build();
-
         return lineRepository.save(line);
     }
 
     public Line getLine(Long id) {
-        Optional<Line> line = this.lineRepository.findById(id);
-        if (line.isPresent()) {
-            return line.get();
-        } else {
-            throw new DataNotFoundException("line not found");
-        }
+        return lineRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Line not found."));
     }
 
     public Line getLine(String token) {
-        Optional<Line> line = this.lineRepository.findByToken(token);
-        if (line.isPresent()) {
-            return line.get();
-        } else {
-            throw new DataNotFoundException("line not found");
-        }
+        return lineRepository.findByToken(token)
+                .orElseThrow(() -> new DataNotFoundException("Line not found."));
     }
 
     public void delete(Line line) {
-        this.lineRepository.delete(line);
+        lineRepository.delete(line);
     }
 
     public void modify(Line line, String m_token, Team m_team) {
         Line m_line = line.toBuilder()
                 .token(m_token)
                 .team(m_team)
-                .modifyDate(LocalDateTime.now())
                 .build();
-
         this.lineRepository.save(m_line);
     }
 }

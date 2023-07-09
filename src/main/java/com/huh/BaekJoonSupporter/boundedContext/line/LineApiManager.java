@@ -2,6 +2,7 @@ package com.huh.BaekJoonSupporter.boundedContext.line;
 
 import com.huh.BaekJoonSupporter.boundedContext.line.form.LineMessageForm;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,17 +14,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+@PreAuthorize("isAnonymous()")
 @RestController
 @RequestMapping("/line")
 public class LineApiManager {
 
-    private final String my_token = "Bearer 032bJyZzg1uq56SKQvAOJ4WDXjL8YcqWJsbkYlE0TSm";
-    private final static String api_url = "https://notify-api.line.me/api/notify?message=";
-    private final static String HEADER_AUTH = "Authorization";
+    @Value("${custom.line.token}")
+    private String my_token;
+    private static final String api_url = "https://notify-api.line.me/api/notify?message=";
+    private static final String HEADER_AUTH = "Authorization";
 
-    @PreAuthorize("isAnonymous()")
     @PostMapping("/callTest1")
-    public String callAPI(@Valid LineMessageForm lineMessageForm, BindingResult bindingResult) {
+    public String callAPI(@Valid LineMessageForm form, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "redirect:/member/login";
         }
@@ -35,9 +37,11 @@ public class LineApiManager {
 
         HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
 
-        String apiContext = api_url + lineMessageForm.getMessage();
+        String apiContext = api_url + form.getMessage();
 
         ResponseEntity<String> jsonObject = restTemplate.exchange(apiContext, HttpMethod.POST, httpEntity, String.class);
+
+        String response = jsonObject.toString();
 
         return "redirect:/line/message_form";
     }

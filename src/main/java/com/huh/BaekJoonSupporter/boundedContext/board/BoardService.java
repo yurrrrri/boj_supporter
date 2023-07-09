@@ -51,23 +51,20 @@ public class BoardService {
     @Transactional
     public Board create(String title, String post, Member member) {
         Board board = Board.create(title, post, member);
-        boardRepository.save(board);
-        return board;
+        return boardRepository.save(board);
     }
 
     // create in category //
     @Transactional
     public Board create(String title, String post, Member member, Category category) {
         Board board = Board.create(title, post, member, category);
-        boardRepository.save(board);
-        return board;
+        return boardRepository.save(board);
     }
 
     @Transactional
     public Board modify(Board board, String title, String post) {
         Board modifyBoard = board.modify(title, post);
-        boardRepository.save(modifyBoard);
-        return modifyBoard;
+        return boardRepository.save(modifyBoard);
     }
 
     @Transactional
