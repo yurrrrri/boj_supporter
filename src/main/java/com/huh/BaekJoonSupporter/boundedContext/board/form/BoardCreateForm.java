@@ -13,8 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class BoardCreateForm {
 
-    @NotEmpty(message = "제목을 입력해주세요.")
-    @Size(min = 1, max = 150)
+    @Size(min = 1, max = 150, message = "제목은 1자 이상 150자 이하여야 합니다.")
     private String title;
 
     @NotEmpty(message = "내용을 입력해주세요.")

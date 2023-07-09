@@ -3,79 +3,68 @@ package com.huh.BaekJoonSupporter.boundedContext.board;
 import com.huh.BaekJoonSupporter.boundedContext.board.form.BoardCreateForm;
 import com.huh.BaekJoonSupporter.boundedContext.category.Category;
 import com.huh.BaekJoonSupporter.boundedContext.category.CategoryService;
-import com.huh.BaekJoonSupporter.boundedContext.comment.form.CommentForm;
 import com.huh.BaekJoonSupporter.boundedContext.member.Member;
 import com.huh.BaekJoonSupporter.boundedContext.member.MemberService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.List;
 
+@PreAuthorize("isAuthenticated()")
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/board")
-@RequiredArgsConstructor
-@Slf4j
 public class BoardController {
 
     private final BoardService boardService;
     private final MemberService memberService;
     private final CategoryService categoryService;
 
-    //-- 게시판 전체 목록 --//
+    @PreAuthorize("isAnonymous()")
     @GetMapping("/list")
     public String showList(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "-1") Long id, // category id
-            Principal principal,
+            @RequestParam(defaultValue = "-1") Long categoryId,
             Model model
     ) {
+
         Page<Board> paging;
 
-        if (id == -1) {
+        if (categoryId == -1) {
             paging = boardService.getBoardAll(page);
             model.addAttribute("id", "-1");
         } else {
-            Category category = categoryService.getCategory(id);
+            Category category = categoryService.getCategory(categoryId);
             paging = boardService.getBoard(page, category);
             model.addAttribute("category", category.getName());
         }
-        model.addAttribute("id", id);
+        model.addAttribute("id", categoryId);
         model.addAttribute("paging", paging);
         return "/board/boardList";
     }
 
-    //-- 게시물 생성 폼 --//
+
     @GetMapping("/create")
-//    @PreAuthorize("isAuthenticated()")
-    public String showCreateForm(
-            BoardCreateForm form,
-            Model model
-    ) {
+    public String showCreateForm(BoardCreateForm form, Model model) {
         List<Category> categories = categoryService.getCategoryAll();
         model.addAttribute("categories", categories);
         return "/board/create";
     }
 
-    //-- 게시물 생성 처리 --//
     @PostMapping("/create")
-//    @PreAuthorize("isAuthenticated()") // 로그인 기능 완성 후 활성화 해야됨
-    public String showCreateForm(
-            BoardCreateForm form,
-            BindingResult bindingResult,
-            Principal principal
-    ) {
-        // 로그인 기능 구현 되면 principal.getName 을 바꿔야 함
-        Member member = memberService.getMember("init 글쓴이");
+    public String showCreateForm(BoardCreateForm form, BindingResult bindingResult, Principal principal) {
+        Member member = memberService.getMember(principal.getName());
 
         if (form.getCategory().equals(""))
             boardService.create(form.getTitle(), form.getPost(), member);
-
         else {
             Category category = categoryService.getCategory(form.getCategory());
             boardService.create(form.getTitle(), form.getPost(), member, category);
@@ -83,14 +72,8 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
-    //-- 게시물 상세 --//
     @GetMapping("/detail/{id}")
-    public String showDetail(
-            @PathVariable Long id,
-            CommentForm form,
-            Principal principal,
-            Model model
-    ) {
+    public String showDetail(@PathVariable Long id, Model model) {
         Board board = boardService.getBoard(id);
         boardService.addView(board);
 
@@ -98,42 +81,35 @@ public class BoardController {
         return "board/detail";
     }
 
-    //-- 게시물 수정 폼 --//
     @GetMapping("/update/{id}")
-//    @PreAuthorize("isAuthenticated()")  // 지금은 권한 없이 아무나 삭제 가능함
-    public String showUpdate(
-            @PathVariable Long id,
-            BoardCreateForm form,
-            Principal principal
-    ) {
+    public String showUpdate(@PathVariable Long id, BoardCreateForm form, Principal principal) {
         Board board = boardService.getBoard(id);
+
+        if (!board.getMember().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
+        }
+
         form.setTitle(board.getTitle());
         form.setPost(board.getPost());
         return "/board/create";
     }
 
-    //-- 게시물 수정 처리 --//
     @PostMapping("/update/{id}")
-//    @PreAuthorize("isAuthenticated()")  // 지금은 권한 없이 아무나 삭제 가능함
-    public String showUpdate(
-            @PathVariable Long id,
-            Principal principal,
-            BoardCreateForm form
-    ) {
+    public String showUpdate(@PathVariable Long id, BoardCreateForm form) {
         Board board = boardService.getBoard(id);
         boardService.modify(board, form.getTitle(), form.getPost());
-        return String.format("redirect:/board/detail/%s", id);
+        return String.format("redirect:/board/detail/%d", id);
     }
 
 
-    //-- 게시물 삭제 --//
     @GetMapping("/delete/{id}")
-//    @PreAuthorize("isAuthenticated()")  // 지금은 권한 없이 아무나 삭제 가능함
-    public String showDelete(
-            @PathVariable Long id,
-            Principal principal
-    ) {
+    public String showDelete(@PathVariable Long id, Principal principal) {
         Board board = boardService.getBoard(id);
+
+        if (!board.getMember().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
+        }
+
         Category category = categoryService.getCategory(board.getCategory().getId());
         boardService.delete(id);
         return "redirect:/board/list?id=" + category.getId();
