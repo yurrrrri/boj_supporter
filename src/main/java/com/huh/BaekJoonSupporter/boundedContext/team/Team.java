@@ -1,12 +1,19 @@
 package com.huh.BaekJoonSupporter.boundedContext.team;
 
+import com.huh.BaekJoonSupporter.boundedContext.base.BaseEntity;
 import com.huh.BaekJoonSupporter.boundedContext.line.Line;
 import com.huh.BaekJoonSupporter.boundedContext.member.Member;
 import com.huh.BaekJoonSupporter.boundedContext.teamrule.TeamRule;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,20 +21,16 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Getter
-@Builder(toBuilder = true)
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
-public class Team {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Team extends BaseEntity {
 
     private Long leaderId;
 
     @Column(unique = true)
     private String teamName;
 
-    // 팀 설명
     private String details;
 
     @OneToOne
@@ -35,14 +38,10 @@ public class Team {
 
     @OneToMany(mappedBy = "team")
     @Builder.Default
-    @ToString.Exclude
     private List<TeamRule> teamRules = new ArrayList<>();
 
     @OneToMany(mappedBy = "team")
     @Builder.Default
-    @ToString.Exclude
     private List<Member> members = new ArrayList<>();
 
-    private LocalDateTime createDate;
-    private LocalDateTime modifyDate;
 }

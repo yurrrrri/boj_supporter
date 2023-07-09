@@ -50,7 +50,7 @@ public class TeamServiceTests {
         Member leader = this.memberService.getMember(NAME1);
         Line line = null;
         Team team = this.teamService.create(leader.getId(), TEAM_NAME, line, leader);
-        Team temp = this.teamService.getTeam(TEAM_NAME);
+        Team temp = this.teamService.getTeamByName(TEAM_NAME);
 
         assertThat(team).isEqualTo(temp);
 
@@ -60,7 +60,7 @@ public class TeamServiceTests {
         String modifyName = "nameTeam";
         Member member = this.memberService.getMember(NAME2);
         teamService.modify(team, modifyName, null);
-        temp = this.teamService.getTeam(modifyName);
+        temp = this.teamService.getTeamByName(modifyName);
 
         assertThat(temp.getTeamName()).isEqualTo(modifyName);
 

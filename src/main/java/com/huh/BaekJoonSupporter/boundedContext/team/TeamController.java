@@ -3,36 +3,36 @@ package com.huh.BaekJoonSupporter.boundedContext.team;
 import com.huh.BaekJoonSupporter.boundedContext.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/team")
-@RequiredArgsConstructor
 public class TeamController {
 
     private final TeamService teamService;
     private final MemberService memberService;
 
-    // 팀 정보 //
-    @GetMapping("/info")
-    public String showInfo() {
+    @GetMapping("/info/{id}")
+    public String showInfo(@PathVariable Long id, Model model) {
+        Team team = teamService.getTeamById(id);
+        model.addAttribute("team", team);
         return "/team/team_info";
     }
 
-    // 팀 생성 //
     @GetMapping("/create")
     public String create() {
         return "/team/create";
     }
 
-    // 팀 멤버 추가 //
     @GetMapping("/add")
     public String add() {
         return "/team/add";
     }
 
-    // 팀 멤버 추가 //
     @GetMapping("/modify")
     public String modify() {
         return "/team/modify";
